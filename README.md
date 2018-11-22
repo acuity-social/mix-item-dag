@@ -1,2 +1,2 @@
-# mix-item-parents
-MIX smart contract to maintain permanent parent / child item relationships.
+# mix-item-dag
+MIX smart contract to maintain a directed acyclic graph of items.
