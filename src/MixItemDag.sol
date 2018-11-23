@@ -41,12 +41,12 @@ contract ItemDag {
 
     /**
      * @dev A child item has been attached to an item.
-     * @param parentId itemId of the parent.
+     * @param itemId itemId of the parent.
      * @param owner owner of the parent.
      * @param childId itemId of the child.
      * @param i Index of the new child.
      */
-    event AddChild(bytes32 indexed parentId, address indexed owner, bytes32 childId, uint i);
+    event AddChild(bytes32 indexed itemId, address indexed owner, bytes32 childId, uint i);
 
     /**
      * @dev Revert if a specific item child does not exist.
@@ -76,31 +76,37 @@ contract ItemDag {
         itemStoreRegistry = _itemStoreRegistry;
     }
 
-    function addChild(bytes32 parentId, ItemStoreInterface childItemStore, bytes32 childNonce) external {
+    /**
+     * @dev Add a child to an item. The child must not exist yet.
+     * @param itemId itemId of the parent.
+     * @param childItemStore The ItemStore contract that will contain the child.
+     * @param childNonce The nonce that will be used to create the child.
+     */
+    function addChild(bytes32 itemId, ItemStoreInterface childItemStore, bytes32 childNonce) external {
         // Ensure the parent exists.
-        require(itemStoreRegistry.getItemStore(parentId).getInUse(parentId));
+        require(itemStoreRegistry.getItemStore(itemId).getInUse(itemId));
         // Get the child itemId. Ensure it does not exist.
         bytes32 childId = childItemStore.getNewItemId(msg.sender, childNonce);
 
         // Get parent state.
-        ItemState storage parentState = itemState[parentId];
+        ItemState storage state = itemState[itemId];
         // Get the index of the new child.
-        uint i = parentState.childCount;
+        uint i = state.childCount;
         // Store the childId.
-        itemChildIds[parentId][i] = childId;
+        itemChildIds[itemId][i] = childId;
         // Increment the child count.
-        parentState.childCount = uint128(i + 1);
+        state.childCount = uint128(i + 1);
         // Log the new child.
-        emit AddChild(parentId, msg.sender, childId, i);
+        emit AddChild(itemId, msg.sender, childId, i);
 
         // Get child state.
-        ItemState storage childState = itemState[childId];
+        state = itemState[childId];
         // Get the index of the new parent.
-        i = childState.parentCount;
+        i = state.parentCount;
         // Store the parentId.
-        itemParentIds[childId][i] = parentId;
+        itemParentIds[childId][i] = itemId;
         // Increment the child count.
-        childState.parentCount = uint128(i + 1);
+        state.parentCount = uint128(i + 1);
     }
 
     /**
@@ -125,9 +131,9 @@ contract ItemDag {
     /**
      * @dev Get all of an item's children.
      * @param itemId itemId of the item.
-     * @return itemIds of the children.
+     * @return childIds itemIds of the item's children.
      */
-    function getAllChildIds(bytes32 itemId) external view returns (bytes32[] memory childIds) {
+    function getAllChildIds(bytes32 itemId) public view returns (bytes32[] memory childIds) {
         uint count = itemState[itemId].childCount;
         childIds = new bytes32[](count);
         for (uint i = 0; i < count; i++) {
@@ -157,14 +163,25 @@ contract ItemDag {
     /**
      * @dev Get all of an item's parents.
      * @param itemId itemId of the item.
-     * @return itemIds of the parents.
+     * @return parentIds itemIds of the item's parents.
      */
-    function getAllParentIds(bytes32 itemId) external view returns (bytes32[] memory parentIds) {
+    function getAllParentIds(bytes32 itemId) public view returns (bytes32[] memory parentIds) {
         uint count = itemState[itemId].parentCount;
         parentIds = new bytes32[](count);
         for (uint i = 0; i < count; i++) {
             parentIds[i] = itemParentIds[itemId][i];
         }
+    }
+
+    /**
+     * @dev Get all of an item's children and parents.
+     * @param itemId itemId of the item.
+     * @return childIds itemIds of the children.
+     * @return parentIds itemIds of the parents.
+     */
+    function getItem(bytes32 itemId) external view returns (bytes32[] memory childIds, bytes32[] memory parentIds) {
+        childIds = getAllChildIds(itemId);
+        parentIds = getAllParentIds(itemId);
     }
 
 }
