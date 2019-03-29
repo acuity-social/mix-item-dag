@@ -78,6 +78,8 @@ contract ItemDagOneParent {
         require(itemStoreRegistry.getItemStore(itemId).getInUse(itemId));
         // Get the child itemId. Ensure it does not exist.
         bytes32 childId = childItemStore.getNewItemId(msg.sender, childNonce);
+        // Ensure the child doesn't have a parent already.
+        require (itemParentId[childId] == 0);
 
         // Get the index of the new child.
         uint i = itemChildCount[itemId];

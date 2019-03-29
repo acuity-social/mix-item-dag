@@ -19,12 +19,26 @@ contract ItemDagOneParentTest is DSTest {
         itemDag = new ItemDagOneParent(itemStoreRegistry);
     }
 
-    function testControlAddChildItemNotInUse() public {
+    function testControlAddChildAlreadyHasParent() public {
+        bytes32 itemId0 = itemStore.create(bytes2(0x0000), hex"1234");
+        bytes32 itemId1 = itemStore.create(bytes2(0x0001), hex"1234");
+        itemDag.addChild(itemId0, itemStore, bytes2(0x0002));
+        itemDag.addChild(itemId1, itemStore, bytes2(0x0003));
+    }
+
+    function testFailAddChildAlreadyHasParent() public {
+        bytes32 itemId0 = itemStore.create(bytes2(0x0000), hex"1234");
+        bytes32 itemId1 = itemStore.create(bytes2(0x0001), hex"1234");
+        itemDag.addChild(itemId0, itemStore, bytes2(0x0002));
+        itemDag.addChild(itemId1, itemStore, bytes2(0x0002));
+    }
+
+    function testControlAddChildParentNotExist() public {
         bytes32 itemId0 = itemStore.create(bytes2(0x0000), hex"1234");
         itemDag.addChild(itemId0, itemStore, bytes2(0x0001));
     }
 
-    function testFailAddChildItemNotInUse() public {
+    function testFailAddChildParentNotExist() public {
         bytes32 itemId0 = hex"";
         itemDag.addChild(itemId0, itemStore, bytes2(0x0001));
     }
