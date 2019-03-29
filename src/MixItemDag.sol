@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
-import "../mix-item-store/src/item_store_interface.sol";
-import "../mix-item-store/src/item_store_registry.sol";
+import "mix-item-store/item_store_interface.sol";
+import "mix-item-store/item_store_registry.sol";
 
 
 /**

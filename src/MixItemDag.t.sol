@@ -1,11 +1,10 @@
 pragma solidity ^0.5.0;
 
 import "ds-test/test.sol";
+import "mix-item-store/item_store_registry.sol";
+import "mix-item-store/item_store_ipfs_sha256.sol";
 
 import "./MixItemDag.sol";
-
-import "../mix-item-store/src/item_store_registry.sol";
-import "../mix-item-store/src/item_store_ipfs_sha256.sol";
 
 
 contract ItemDagTest is DSTest {
