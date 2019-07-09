@@ -25,9 +25,9 @@ contract ItemDagOnlyOwner is ItemDag {
         // Get parent ItemStore.
         ItemStoreInterface itemStore = itemStoreRegistry.getItemStore(itemId);
         // Ensure the parent exists.
-        require(itemStore.getInUse(itemId));
-        // Ensure the parent has the same owner as the child.
-        require(itemStore.getOwner(itemId) == msg.sender);
+        require (itemStore.getInUse(itemId), "Parent does not exist.");
+        // Ensure the child has the same owner as the parent.
+        require (itemStore.getOwner(itemId) == msg.sender, "Child has different owner than parent.");
         // Get the child itemId. Ensure it does not exist.
         bytes32 childId = childItemStore.getNewItemId(msg.sender, childNonce);
 

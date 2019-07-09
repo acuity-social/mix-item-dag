@@ -46,7 +46,7 @@ contract ItemDagOneParent {
      * @param i Index of the child.
      */
     modifier childExists(bytes32 itemId, uint i) {
-        require (i < itemChildCount[itemId]);
+        require (i < itemChildCount[itemId], "Child does not exist.");
         _;
     }
 
@@ -55,7 +55,7 @@ contract ItemDagOneParent {
      * @param itemId itemId of the item.
      */
     modifier hasParent(bytes32 itemId) {
-        require (itemParentId[itemId] != 0);
+        require (itemParentId[itemId] != 0, "Item does not have a parent.");
         _;
     }
 
@@ -75,11 +75,11 @@ contract ItemDagOneParent {
      */
     function addChild(bytes32 itemId, ItemStoreInterface childItemStore, bytes32 childNonce) external {
         // Ensure the parent exists.
-        require(itemStoreRegistry.getItemStore(itemId).getInUse(itemId));
+        require (itemStoreRegistry.getItemStore(itemId).getInUse(itemId), "Parent does not exist.");
         // Get the child itemId. Ensure it does not exist.
         bytes32 childId = childItemStore.getNewItemId(msg.sender, childNonce);
         // Ensure the child doesn't have a parent already.
-        require (itemParentId[childId] == 0);
+        require (itemParentId[childId] == 0, "Child already has a parent.");
 
         // Get the index of the new child.
         uint i = itemChildCount[itemId];
