@@ -48,7 +48,7 @@ contract ItemDagOnlyOwner is ItemDag {
         i = state.parentCount;
         // Store the parentId.
         itemParentIds[childId][i] = itemId;
-        // Increment the child count.
+        // Increment the parent count.
         state.parentCount = uint128(i + 1);
     }
 
