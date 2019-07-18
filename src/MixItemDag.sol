@@ -1,7 +1,7 @@
 pragma solidity ^0.5.10;
 
-import "mix-item-store/ItemStoreInterface.sol";
-import "mix-item-store/ItemStoreRegistry.sol";
+import "mix-item-store/MixItemStoreInterface.sol";
+import "mix-item-store/MixItemStoreRegistry.sol";
 
 
 /**
@@ -35,9 +35,9 @@ contract MixItemDag {
     mapping (bytes32 => mapping(uint => bytes32)) itemParentIds;
 
     /**
-     * @dev ItemStoreRegistry contract.
+     * @dev MixItemStoreRegistry contract.
      */
-    ItemStoreRegistry itemStoreRegistry;
+    MixItemStoreRegistry itemStoreRegistry;
 
     /**
      * @dev A child item has been attached to an item.
@@ -69,10 +69,10 @@ contract MixItemDag {
     }
 
     /**
-     * @param _itemStoreRegistry Address of the ItemStoreRegistry contract.
+     * @param _itemStoreRegistry Address of the MixItemStoreRegistry contract.
      */
-    constructor(ItemStoreRegistry _itemStoreRegistry) public {
-        // Store the address of the ItemStoreRegistry contract.
+    constructor(MixItemStoreRegistry _itemStoreRegistry) public {
+        // Store the address of the MixItemStoreRegistry contract.
         itemStoreRegistry = _itemStoreRegistry;
     }
 
@@ -82,7 +82,7 @@ contract MixItemDag {
      * @param childItemStore The ItemStore contract that will contain the child.
      * @param childNonce The nonce that will be used to create the child.
      */
-    function addChild(bytes32 itemId, ItemStoreInterface childItemStore, bytes32 childNonce) external {
+    function addChild(bytes32 itemId, MixItemStoreInterface childItemStore, bytes32 childNonce) external {
         // Ensure the parent exists.
         require (itemStoreRegistry.getItemStore(itemId).getInUse(itemId), "Parent does not exist.");
         // Get the child itemId. Ensure it does not exist.

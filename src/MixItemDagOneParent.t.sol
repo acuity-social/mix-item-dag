@@ -1,21 +1,21 @@
 pragma solidity ^0.5.10;
 
 import "ds-test/test.sol";
-import "mix-item-store/ItemStoreRegistry.sol";
-import "mix-item-store/ItemStoreIpfsSha256.sol";
+import "mix-item-store/MixItemStoreRegistry.sol";
+import "mix-item-store/MixItemStoreIpfsSha256.sol";
 
 import "./MixItemDagOneParent.sol";
 
 
 contract MixItemDagOneParentTest is DSTest {
 
-    ItemStoreRegistry itemStoreRegistry;
-    ItemStoreIpfsSha256 itemStore;
+    MixItemStoreRegistry itemStoreRegistry;
+    MixItemStoreIpfsSha256 itemStore;
     MixItemDagOneParent mixItemDagOneParent;
 
     function setUp() public {
-        itemStoreRegistry = new ItemStoreRegistry();
-        itemStore = new ItemStoreIpfsSha256(itemStoreRegistry);
+        itemStoreRegistry = new MixItemStoreRegistry();
+        itemStore = new MixItemStoreIpfsSha256(itemStoreRegistry);
         mixItemDagOneParent = new MixItemDagOneParent(itemStoreRegistry);
     }
 

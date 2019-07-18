@@ -1,8 +1,8 @@
 pragma solidity ^0.5.10;
 
 import "ds-test/test.sol";
-import "mix-item-store/ItemStoreRegistry.sol";
-import "mix-item-store/ItemStoreIpfsSha256.sol";
+import "mix-item-store/MixItemStoreRegistry.sol";
+import "mix-item-store/MixItemStoreIpfsSha256.sol";
 
 import "./MixItemDagOnlyOwner.sol";
 import "./MixItemDagOnlyOwnerProxy.sol";
@@ -10,14 +10,14 @@ import "./MixItemDagOnlyOwnerProxy.sol";
 
 contract MixItemDagOnlyOwnerTest is DSTest {
 
-    ItemStoreRegistry itemStoreRegistry;
-    ItemStoreIpfsSha256 itemStore;
+    MixItemStoreRegistry itemStoreRegistry;
+    MixItemStoreIpfsSha256 itemStore;
     MixItemDagOnlyOwner mixItemDagOnlyOwner;
     MixItemDagOnlyOwnerProxy mixItemDagOnlyOwnerProxy;
 
     function setUp() public {
-        itemStoreRegistry = new ItemStoreRegistry();
-        itemStore = new ItemStoreIpfsSha256(itemStoreRegistry);
+        itemStoreRegistry = new MixItemStoreRegistry();
+        itemStore = new MixItemStoreIpfsSha256(itemStoreRegistry);
         mixItemDagOnlyOwner = new MixItemDagOnlyOwner(itemStoreRegistry);
         mixItemDagOnlyOwnerProxy = new MixItemDagOnlyOwnerProxy(mixItemDagOnlyOwner);
     }

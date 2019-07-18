@@ -11,9 +11,9 @@ import "./MixItemDag.sol";
 contract MixItemDagOnlyOwner is MixItemDag {
 
     /**
-     * @param _itemStoreRegistry Address of the ItemStoreRegistry contract.
+     * @param _itemStoreRegistry Address of the MixItemStoreRegistry contract.
      */
-    constructor(ItemStoreRegistry _itemStoreRegistry) MixItemDag(_itemStoreRegistry) public {}
+    constructor(MixItemStoreRegistry _itemStoreRegistry) MixItemDag(_itemStoreRegistry) public {}
 
     /**
      * @dev Add a child to an item. The child must not exist yet.
@@ -21,9 +21,9 @@ contract MixItemDagOnlyOwner is MixItemDag {
      * @param childItemStore The ItemStore contract that will contain the child.
      * @param childNonce The nonce that will be used to create the child.
      */
-    function addChild(bytes32 itemId, ItemStoreInterface childItemStore, bytes32 childNonce) external {
+    function addChild(bytes32 itemId, MixItemStoreInterface childItemStore, bytes32 childNonce) external {
         // Get parent ItemStore.
-        ItemStoreInterface itemStore = itemStoreRegistry.getItemStore(itemId);
+        MixItemStoreInterface itemStore = itemStoreRegistry.getItemStore(itemId);
         // Ensure the parent exists.
         require (itemStore.getInUse(itemId), "Parent does not exist.");
         // Ensure the child has the same owner as the parent.

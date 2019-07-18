@@ -11,7 +11,7 @@ contract MixItemDagOnlyOwnerProxy {
         mixItemDagOnlyOwner = _mixItemDagOnlyOwner;
     }
 
-    function addChild(bytes32 itemId, ItemStoreInterface childItemStore, bytes32 childNonce) external {
+    function addChild(bytes32 itemId, MixItemStoreInterface childItemStore, bytes32 childNonce) external {
         mixItemDagOnlyOwner.addChild(itemId, childItemStore, childNonce);
     }
 
