@@ -5,11 +5,11 @@ import "mix-item-store/ItemStoreRegistry.sol";
 
 
 /**
- * @title ItemDag
+ * @title MixItemDag
  * @author Jonathan Brown <jbrown@mix-blockchain.org>
  * @dev Maintains a directed acyclic graph of items.
  */
-contract ItemDag {
+contract MixItemDag {
 
     /**
      * @dev Single slot structure of item state.

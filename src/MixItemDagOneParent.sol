@@ -5,11 +5,11 @@ import "mix-item-store/ItemStoreRegistry.sol";
 
 
 /**
- * @title ItemDagOneParent
+ * @title MixItemDagOneParent
  * @author Jonathan Brown <jbrown@mix-blockchain.org>
  * @dev Maintains a directed acyclic graph of items where each item can only have one parent.
  */
-contract ItemDagOneParent {
+contract MixItemDagOneParent {
 
     /**
      * @dev Mapping of itemId to item child count.

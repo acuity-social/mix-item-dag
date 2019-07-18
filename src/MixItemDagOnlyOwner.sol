@@ -4,16 +4,16 @@ import "./MixItemDag.sol";
 
 
 /**
- * @title ItemDagOnlyOwner
+ * @title MixItemDagOnlyOwner
  * @author Jonathan Brown <jbrown@mix-blockchain.org>
  * @dev Maintains a directed acyclic graph of items where child items have the same owner as the parent.
  */
-contract ItemDagOnlyOwner is ItemDag {
+contract MixItemDagOnlyOwner is MixItemDag {
 
     /**
      * @param _itemStoreRegistry Address of the ItemStoreRegistry contract.
      */
-    constructor(ItemStoreRegistry _itemStoreRegistry) ItemDag(_itemStoreRegistry) public {}
+    constructor(ItemStoreRegistry _itemStoreRegistry) MixItemDag(_itemStoreRegistry) public {}
 
     /**
      * @dev Add a child to an item. The child must not exist yet.
