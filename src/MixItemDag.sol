@@ -37,7 +37,7 @@ contract MixItemDag {
     /**
      * @dev MixItemStoreRegistry contract.
      */
-    MixItemStoreRegistry itemStoreRegistry;
+    MixItemStoreRegistry public itemStoreRegistry;
 
     /**
      * @dev A child item has been attached to an item.
