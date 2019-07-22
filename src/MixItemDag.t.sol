@@ -9,47 +9,47 @@ import "./MixItemDag.sol";
 
 contract MixItemDagTest is DSTest {
 
-    MixItemStoreRegistry itemStoreRegistry;
-    MixItemStoreIpfsSha256 itemStore;
+    MixItemStoreRegistry mixItemStoreRegistry;
+    MixItemStoreIpfsSha256 mixItemStore;
     MixItemDag mixItemDag;
 
     function setUp() public {
-        itemStoreRegistry = new MixItemStoreRegistry();
-        itemStore = new MixItemStoreIpfsSha256(itemStoreRegistry);
-        mixItemDag = new MixItemDag(itemStoreRegistry);
+        mixItemStoreRegistry = new MixItemStoreRegistry();
+        mixItemStore = new MixItemStoreIpfsSha256(mixItemStoreRegistry);
+        mixItemDag = new MixItemDag(mixItemStoreRegistry);
     }
 
     function testControlAddChildItemNotInUse() public {
-        bytes32 itemId0 = itemStore.create(bytes2(0x0000), hex"1234");
-        mixItemDag.addChild(itemId0, itemStore, bytes2(0x0001));
+        bytes32 itemId0 = mixItemStore.create(bytes2(0x0000), hex"1234");
+        mixItemDag.addChild(itemId0, mixItemStore, bytes2(0x0001));
     }
 
     function testFailAddChildItemNotInUse() public {
         bytes32 itemId0 = hex"";
-        mixItemDag.addChild(itemId0, itemStore, bytes2(0x0001));
+        mixItemDag.addChild(itemId0, mixItemStore, bytes2(0x0001));
     }
 
     function testControlAddChildChildExists() public {
-        bytes32 itemId0 = itemStore.create(bytes2(0x0000), hex"1234");
-        mixItemDag.addChild(itemId0, itemStore, bytes2(0x0001));
+        bytes32 itemId0 = mixItemStore.create(bytes2(0x0000), hex"1234");
+        mixItemDag.addChild(itemId0, mixItemStore, bytes2(0x0001));
     }
 
     function testFailAddChildChildExists() public {
-        bytes32 itemId0 = itemStore.create(bytes2(0x0000), hex"1234");
-        itemStore.create(bytes2(0x0001), hex"1234");
-        mixItemDag.addChild(itemId0, itemStore, bytes2(0x0001));
+        bytes32 itemId0 = mixItemStore.create(bytes2(0x0000), hex"1234");
+        mixItemStore.create(bytes2(0x0001), hex"1234");
+        mixItemDag.addChild(itemId0, mixItemStore, bytes2(0x0001));
     }
 
     function testAddChild() public {
-        bytes32 itemId0 = itemStore.create(bytes2(0x0000), hex"1234");
+        bytes32 itemId0 = mixItemStore.create(bytes2(0x0000), hex"1234");
 
         assertEq(mixItemDag.getChildCount(itemId0), 0);
         assertEq(mixItemDag.getAllChildIds(itemId0).length, 0);
         assertEq(mixItemDag.getParentCount(itemId0), 0);
         assertEq(mixItemDag.getAllParentIds(itemId0).length, 0);
 
-        mixItemDag.addChild(itemId0, itemStore, bytes2(0x0001));
-        bytes32 itemId1 = itemStore.create(bytes2(0x0001), hex"1234");
+        mixItemDag.addChild(itemId0, mixItemStore, bytes2(0x0001));
+        bytes32 itemId1 = mixItemStore.create(bytes2(0x0001), hex"1234");
 
         assertEq(mixItemDag.getChildCount(itemId0), 1);
         bytes32[] memory childIds = mixItemDag.getAllChildIds(itemId0);
@@ -65,8 +65,8 @@ contract MixItemDagTest is DSTest {
         assertEq(parentIds.length, 1);
         assertEq(parentIds[0], itemId0);
 
-        mixItemDag.addChild(itemId0, itemStore, bytes2(0x0002));
-        bytes32 itemId2 = itemStore.create(bytes2(0x0002), hex"1234");
+        mixItemDag.addChild(itemId0, mixItemStore, bytes2(0x0002));
+        bytes32 itemId2 = mixItemStore.create(bytes2(0x0002), hex"1234");
 
         assertEq(mixItemDag.getChildCount(itemId0), 2);
         childIds = mixItemDag.getAllChildIds(itemId0);
@@ -90,9 +90,9 @@ contract MixItemDagTest is DSTest {
         assertEq(parentIds.length, 1);
         assertEq(parentIds[0], itemId0);
 
-        mixItemDag.addChild(itemId1, itemStore, bytes2(0x0003));
-        mixItemDag.addChild(itemId2, itemStore, bytes2(0x0003));
-        bytes32 itemId3 = itemStore.create(bytes2(0x0003), hex"1234");
+        mixItemDag.addChild(itemId1, mixItemStore, bytes2(0x0003));
+        mixItemDag.addChild(itemId2, mixItemStore, bytes2(0x0003));
+        bytes32 itemId3 = mixItemStore.create(bytes2(0x0003), hex"1234");
 
         assertEq(mixItemDag.getChildCount(itemId0), 2);
         childIds = mixItemDag.getAllChildIds(itemId0);
