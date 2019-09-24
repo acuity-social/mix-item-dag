@@ -1,4 +1,4 @@
-pragma solidity ^0.5.10;
+pragma solidity ^0.5.11;
 
 import "mix-item-store/MixItemStoreInterface.sol";
 import "mix-item-store/MixItemStoreRegistry.sol";
