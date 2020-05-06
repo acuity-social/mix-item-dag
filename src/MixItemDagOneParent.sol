@@ -1,4 +1,4 @@
-pragma solidity ^0.5.12;
+pragma solidity ^0.6.6;
 
 import "mix-item-store/MixItemStoreInterface.sol";
 import "mix-item-store/MixItemStoreRegistry.sol";
@@ -73,7 +73,7 @@ contract MixItemDagOneParent {
      * @param childItemStore The ItemStore contract that will contain the child.
      * @param childNonce The nonce that will be used to create the child.
      */
-    function addChild(bytes32 itemId, MixItemStoreInterface childItemStore, bytes32 childNonce) external {
+    function addChild(bytes32 itemId, MixItemStoreInterface childItemStore, bytes32 childNonce) virtual external {
         // Ensure the parent exists.
         require (itemStoreRegistry.getItemStore(itemId).getInUse(itemId), "Parent does not exist.");
         // Get the child itemId. Ensure it does not exist.

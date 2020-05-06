@@ -1,4 +1,4 @@
-pragma solidity ^0.5.12;
+pragma solidity ^0.6.6;
 
 import "./MixItemDagOneParent.sol";
 
@@ -21,7 +21,7 @@ contract MixItemDagOneParentOnlyOwner is MixItemDagOneParent {
      * @param childItemStore The ItemStore contract that will contain the child.
      * @param childNonce The nonce that will be used to create the child.
      */
-    function addChild(bytes32 itemId, MixItemStoreInterface childItemStore, bytes32 childNonce) external {
+    function addChild(bytes32 itemId, MixItemStoreInterface childItemStore, bytes32 childNonce) override external {
         // Get parent ItemStore.
         MixItemStoreInterface itemStore = itemStoreRegistry.getItemStore(itemId);
         // Ensure the parent exists.
